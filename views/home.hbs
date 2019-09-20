@@ -1,0 +1,47 @@
+<nav>
+    <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">Jitsi Login</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a class="item" href="/logout"> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h1>Jitsi Login</h1>
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="first_name" type="text" value="{{given_name}}" disabled>
+                    <label for="first_name">First Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="last_name" type="text" value="{{family_name}}" disabled>
+                    <label for="last_name">Last Name</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="email" type="email" value="{{email}}" disabled>
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s6">
+                    <input placeholder="Room" id="room" type="text" value="{{default_room}}">
+                    <label for="room">Room</label>
+                </div>
+            </div>
+        </form>
+        <a id="open" class="waves-effect waves-light btn" target="_blank">Open Jitsi</a>
+    </div>
+</div>
+<script>
+    (function () {
+        document.getElementById("open").addEventListener("click", open);
+
+        function open() {
+            const room = document.getElementById("room").value;
+            window.open("{{jitsiUrl}}" + room + "?jwt={{jwt}}", "_blank")
+        }
+    })();
+</script>
