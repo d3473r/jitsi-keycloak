@@ -25,7 +25,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs');
 
 const memoryStore = new session.MemoryStore();
-const keycloak = new Keycloak({ store: memoryStore })
+const keycloak = new Keycloak({ store: memoryStore }, 'config/keycloak.json')
 
 app.use(session({
     secret: crypto.randomBytes(24).toString('base64'),
