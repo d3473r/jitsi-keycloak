@@ -4,10 +4,16 @@ const PORT = 8080;
 const HOST = '0.0.0.0';
 
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const Keycloak = require('keycloak-connect');
+
+const JITSI_SECRET = process.env.JITSI_SECRET || "JITSI_SECRET";
+const DEFAULT_ROOM = process.env.DEFAULT_ROOM || "DEFAULT_ROOM";
+const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
+const JITSI_SUB = process.env.JITSI_SUB || "JITSI_SUB";
 
 const app = express();
 
@@ -22,7 +28,7 @@ const memoryStore = new session.MemoryStore();
 const keycloak = new Keycloak({ store: memoryStore })
 
 app.use(session({
-    secret: 'SESSION_SECRET',
+    secret: crypto.randomBytes(24).toString('base64'),
     resave: false,
     saveUninitialized: true,
     store: memoryStore
@@ -32,15 +38,15 @@ app.use(keycloak.middleware());
 
 app.get('/', keycloak.protect(), function (req, res) {
     const content = req.kauth.grant.access_token.content;
-    const jitsiSecret = "JITSI_SECRET";
+    const jitsiSecret = JITSI_SECRET;
 
     res.render('home', {
         showTitle: true,
         given_name: content.given_name,
         family_name: content.family_name,
         email: content.email,
-        default_room: "DEFAULT_ROOM",
-        jitsiUrl: "JITSI_URL",
+        default_room: DEFAULT_ROOM,
+        jitsiUrl: JITSI_URL,
 
         helpers: {
             jwt: function () {
@@ -53,7 +59,7 @@ app.get('/', keycloak.protect(), function (req, res) {
                     },
                     "aud": "jitsi",
                     "iss": "jitsi",
-                    "sub": "JITSI_SUB",
+                    "sub": JITSI_SUB,
                     "room": "*"
                 }, jitsiSecret);
                 return token;

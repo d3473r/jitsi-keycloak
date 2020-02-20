@@ -4,12 +4,14 @@
 
 - `npm install`
 
-
 ## Configuration
 
-### Replace the following placeholders in `app.js`:
+### Add an public openid-connect client in your keycloak realm
 
-- `SESSION_SECRET` with a random string (`node -e "console.log(require('crypto').randomBytes(24).toString('base64'));"`)
+### Download the `keycloak.json` file for your client
+
+### Replace the following placeholders in `app.js` or pass them as environment variables:
+
 - `JITSI_SECRET` with the shared secret from jitsi `JWT_APP_SECRET`. If you don't have one already run: `node -e "console.log(require('crypto').randomBytes(24).toString('base64'));"` again.
 - `DEFAULT_ROOM` with a default room name e.g. `meeting`
 - `JITSI_URL` with the url of your jitsi server e.g. `https://meet.example.com`
