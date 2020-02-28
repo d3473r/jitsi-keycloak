@@ -34,14 +34,64 @@
         </form>
         <a id="open" class="waves-effect waves-light btn" target="_blank">Open Jitsi</a>
     </div>
+
+    <h1>Invite</h1>
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="invite_name" type="text">
+                    <label for="invite_name">Name</label>
+                </div>
+
+            </div>
+        </form>
+        <a id="invite" class="waves-effect waves-light btn">Invite</a>
+    </div>
+</div>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <iframe id="iframe" frameborder="false" width="100%"></iframe>
+        <a id="copy_invite" class="waves-effect waves-light btn">Copy invite url</a>
+        <a id="join_invite" class="waves-effect waves-light btn">Join Call</a>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
 </div>
 <script>
     (function () {
         document.getElementById("open").addEventListener("click", open);
+        document.getElementById("invite").addEventListener("click", invite);
+        document.getElementById("copy_invite").addEventListener("click", copy_invite);
+        document.getElementById("join_invite").addEventListener("click", join_invite);
 
         function open() {
             const room = document.getElementById("room").value;
-            window.open("{{jitsiUrl}}" + room + "?jwt={{jwt}}", "_blank")
+            window.open("{{jitsiUrl}}" + room + '?jwt={{jwt}}', "_blank");
+        }
+
+        function invite() {
+            const iframe = document.getElementById("iframe");
+            const invite_name = document.getElementById("invite_name").value;
+
+            iframe.src = `/invite?invite_name=${invite_name}`;
+            const modals = M.Modal.init(document.querySelectorAll('.modal'));
+            modals[0].open();
+        }
+
+        function copy_invite() {
+            const iframe = document.getElementById('iframe');
+            const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const link = innerDoc.getElementById('invite_link');
+            navigator.clipboard.writeText(link.value);
+        }
+
+        function join_invite() {
+            const iframe = document.getElementById('iframe');
+            const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const link = innerDoc.getElementById('invite_link');
+            window.open("{{jitsiUrl}}" + link.getAttribute('room') + '?jwt={{jwt}}', "_blank");
         }
     })();
 </script>

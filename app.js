@@ -25,7 +25,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs');
 
 const memoryStore = new session.MemoryStore();
-const keycloak = new Keycloak({ store: memoryStore }, 'config/keycloak.json')
+const keycloak = new Keycloak({store: memoryStore}, 'config/keycloak.json');
 
 app.use(session({
     secret: crypto.randomBytes(24).toString('base64'),
@@ -50,7 +50,7 @@ app.get('/', keycloak.protect(), function (req, res) {
 
         helpers: {
             jwt: function () {
-                const token = jwt.sign({
+                return jwt.sign({
                     "context": {
                         "user": {
                             "name": content.given_name + " " + content.family_name,
@@ -62,13 +62,40 @@ app.get('/', keycloak.protect(), function (req, res) {
                     "sub": JITSI_SUB,
                     "room": "*"
                 }, jitsiSecret);
-                return token;
             }
         }
     });
 });
 
-app.use(keycloak.middleware({ logout: '/' }));
+app.get('/invite', keycloak.protect(), function (req, res) {
+    const invite_name = req.query['invite_name'];
+    const jitsiSecret = JITSI_SECRET;
+    const room = crypto.randomBytes(24).toString('hex');
+
+    const token = jwt.sign({
+        "context": {
+            "user": {
+                "name": invite_name
+            }
+        },
+        "aud": "jitsi",
+        "iss": "jitsi",
+        "sub": JITSI_SUB,
+        "room": room
+    }, jitsiSecret);
+
+    res.render('invite', {
+        room: room,
+
+        helpers: {
+            invite_link: function () {
+                return `${JITSI_URL}${room}?jwt=${token}`
+            }
+        }
+    });
+});
+
+app.use(keycloak.middleware({logout: '/'}));
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
