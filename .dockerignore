@@ -1,4 +1,6 @@
-.idea/
+.idea
+client
+server/node_modules
 node_modules
 npm-debug.log
-config/
+config

@@ -42,6 +42,7 @@ const sign = (firstName, lastName, email, allowedRoom) => {
   }, JITSI_SECRET);
 };
 
+app.use(express.static('public'));
 app.use(keycloak.middleware());
 
 app.get("/api/config", keycloak.protect(), (req, res) => {

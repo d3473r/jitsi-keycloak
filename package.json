@@ -6,6 +6,10 @@
     "dev": "npm-run-all --parallel dev:client dev:server",
     "dev:client": "npm --prefix client run serve",
     "dev:server": "npm --prefix server run dev",
+    "build": "npm-run-all build:client copy build:server",
+    "build:client": "npm --prefix client run build",
+    "build:server": "npm --prefix server start",
+    "copy": "cpy --parents --cwd=client/dist ./ ../../server/public",
     "install": "npm-run-all install:client install:server",
     "install:client": "npm --prefix client install",
     "install:server": "npm --prefix server install"
@@ -21,6 +25,7 @@
   },
   "homepage": "https://github.com/D3473R/jitsi-keycloak#readme",
   "devDependencies": {
+    "cpy-cli": "^3.1.0",
     "npm-run-all": "^4.1.5"
   }
 }

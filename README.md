@@ -2,7 +2,7 @@
 
 ## Installation
 
-- `npm run install`
+- `npm install`
 
 ## Configuration
 
@@ -24,3 +24,14 @@
 
 - `npm run dev`
 
+## Build with docker
+
+- `docker build -t jitsi-keycloak .`
+
+## Run with docker
+
+- `docker run -it --rm -p 3000:3000 -v $(pwd)/config:/config jitsi-keycloak`
+
+## Run with docker-compose in example directory
+
+- `docker-compose up -d`
