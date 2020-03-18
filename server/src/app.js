@@ -58,7 +58,6 @@ app.get("/api/keycloak.json", (req, res) => {
   return res.sendFile(path.resolve(path.join(__dirname, "../../config/keycloak.json")));
 });
 
-app.use(keycloak.middleware({logout: "/"}));
 app.listen(PORT);
 
 console.log(`App listening on port: ${PORT}`);
