@@ -1,6 +1,5 @@
 .idea
-client
-server/node_modules
-node_modules
+client/dist
+**/node_modules
 npm-debug.log
 config
