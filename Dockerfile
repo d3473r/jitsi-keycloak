@@ -1,7 +1,8 @@
 FROM node:lts-alpine as build
 WORKDIR /build
+COPY client/package*.json ./
+RUN npm ci
 COPY client .
-RUN npm i
 RUN npm run build
 
 FROM iron/node as run
