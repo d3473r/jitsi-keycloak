@@ -10,7 +10,7 @@
       <span>{{profile.firstName}} {{profile.lastName}}</span>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn icon v-on:click="keycloak.logout()" v-on="on">
+          <v-btn icon v-on:click="keycloak.logout({redirectUri: url})" v-on="on">
             <v-icon>mdi-logout</v-icon>
           </v-btn>
         </template>
@@ -130,6 +130,9 @@
     computed: {
       inviteRoom: function () {
         return `${this.inviteRoomPrefix}${this.inviteRoomId}`;
+      },
+      url() {
+        return window.location.href;
       }
     },
     methods: {
