@@ -20,15 +20,15 @@ axios.get("api/keycloak.json").then(response => {
       console.info("Authenticated");
     }
 
+    localStorage.setItem("vue-token", keycloak.token);
+    localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
+
     keycloak.loadUserProfile()
       .then(profile => {
         new Vue({
           vuetify,
           render: h => h(App, {props: {keycloak: keycloak, profile: profile}})
         }).$mount("#app");
-
-        localStorage.setItem("vue-token", keycloak.token);
-        localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
 
         setTimeout(() => {
           keycloak.updateToken(70).then(refreshed => {
