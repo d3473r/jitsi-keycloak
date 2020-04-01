@@ -15,6 +15,10 @@ const INVITE_ROOM_PREFIX = process.env.INVITE_ROOM_PREFIX || "INVITE_ROOM_PREFIX
 const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
 const JITSI_SUB = process.env.JITSI_SUB || "JITSI_SUB";
 
+process.on('SIGINT', () => {
+  process.exit();
+});
+
 const app = express();
 
 const memoryStore = new session.MemoryStore();
