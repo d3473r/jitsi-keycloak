@@ -139,8 +139,6 @@
   import axios from "axios";
   import {v4 as uuidv4} from "uuid";
 
-  axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("vue-token")}`;
-
   export default {
     name: "App",
 
@@ -210,6 +208,7 @@
       }
     },
     async mounted() {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("vue-token")}`;
       this.config = (await axios.get("/api/config")).data;
       this.room = this.config.defaultRoom;
       this.inviteRoomPrefix = this.config.inviteRoomPrefix;
