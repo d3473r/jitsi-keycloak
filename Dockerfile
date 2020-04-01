@@ -6,7 +6,8 @@ RUN npm ci
 COPY client .
 RUN npm run build
 
-FROM iron/node as run
+FROM alpine:3.8 as run
+RUN apk add --no-cache npm
 WORKDIR /app
 COPY server .
 COPY --from=build /build/dist ./public
