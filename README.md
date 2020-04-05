@@ -6,13 +6,14 @@
 
 ## Configuration
 
-### Add an public openid-connect client in your keycloak realm
+### Keycloak
 
-### Download the `keycloak.json` file for your client
+- Add an public openid-connect client in your keycloak realm
+- Download the `keycloak.json` file for your client and put it in the config directory.
 
 ### Replace the following placeholders in `app.js` or pass them as environment variables:
 
-- `JITSI_SECRET` with the shared secret from jitsi `JWT_APP_SECRET`. If you don't have one already run: `node -e "console.log(require('crypto').randomBytes(24).toString('base64'));"` again.
+- `JITSI_SECRET` with the shared secret from jitsi `JWT_APP_SECRET`. If you don't have one already run: `node -e "console.log(require('crypto').randomBytes(24).toString('base64'));"`.
 - `DEFAULT_ROOM` with a default room name e.g. `meeting`
 - `INVITE_ROOM_PREFIX` with a invite room prefix e.g. `meeting-invite`
 - `JITSI_URL` with the url of your jitsi server e.g. `https://meet.example.com`
