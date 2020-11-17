@@ -12,6 +12,7 @@
     "keycloak-js": "^9.0.0",
     "uuid": "^7.0.2",
     "vue": "^2.6.11",
+    "vue-router": "^3.4.9",
     "vuetify": "^2.2.11"
   },
   "devDependencies": {

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Jitsi login with keycloak",
   "scripts": {
+    "start": "npm run dev",
     "dev": "npm-run-all --parallel dev:client dev:server",
     "dev:client": "npm --prefix client run serve",
     "dev:server": "npm --prefix server run dev",
