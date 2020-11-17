@@ -1,9 +1,11 @@
-import Vue from "vue"
-import App from "./App.vue"
+import Vue from "vue";
+import VueRouter from "vue-router";
+import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
-import axios from "axios"
+import axios from "axios";
 import * as Keycloak from "keycloak-js";
 
+Vue.use(VueRouter)
 Vue.config.productionTip = false;
 
 axios.get("api/keycloak.json").then(response => {
@@ -12,6 +14,12 @@ axios.get("api/keycloak.json").then(response => {
     realm: response.data["realm"],
     clientId: response.data["resource"]
   });
+
+
+  const router = new VueRouter({
+    mode: 'history',
+    routes: [{path: '/:room', component: App}]
+  })
 
   keycloak.init({onLoad: "login-required", promiseType: "native", checkLoginIframe: false}).then(auth => {
     if (!auth) {
@@ -24,25 +32,26 @@ axios.get("api/keycloak.json").then(response => {
     localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
 
     keycloak.loadUserProfile()
-      .then(profile => {
-        new Vue({
-          vuetify,
-          render: h => h(App, {props: {keycloak: keycloak, profile: profile}})
-        }).$mount("#app");
+        .then(profile => {
+          new Vue({
+            vuetify,
+            router,
+            render: h => h(App, {props: {keycloak: keycloak, profile: profile}})
+          }).$mount("#app");
 
-        setTimeout(() => {
-          keycloak.updateToken(70).then(refreshed => {
-            if (refreshed) {
-              console.debug("Token refreshed" + refreshed);
-            } else {
-              console.warn("Token not refreshed, valid for "
-                + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + " seconds");
-            }
-          }).catch(() => {
-            console.error("Failed to refresh token");
-          });
-        }, 60000)
-      }).catch(function () {
+          setTimeout(() => {
+            keycloak.updateToken(70).then(refreshed => {
+              if (refreshed) {
+                console.debug("Token refreshed" + refreshed);
+              } else {
+                console.warn("Token not refreshed, valid for "
+                    + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + " seconds");
+              }
+            }).catch(() => {
+              console.error("Failed to refresh token");
+            });
+          }, 60000)
+        }).catch(function () {
       console.error("Failed to load user profile");
     });
   }).catch(() => {

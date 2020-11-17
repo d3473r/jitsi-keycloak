@@ -11,7 +11,6 @@ const PORT = 3000;
 
 const JITSI_SECRET = process.env.JITSI_SECRET || "JITSI_SECRET";
 const DEFAULT_ROOM = process.env.DEFAULT_ROOM || "DEFAULT_ROOM";
-const INVITE_ROOM_PREFIX = process.env.INVITE_ROOM_PREFIX || "INVITE_ROOM_PREFIX";
 const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
 const JITSI_SUB = process.env.JITSI_SUB || "JITSI_SUB";
 
@@ -46,12 +45,19 @@ const sign = (firstName, lastName, email, allowedRoom) => {
   }, JITSI_SECRET);
 };
 
-app.use(express.static('public'));
+app.use('/', express.static('public'));
+app.get('/:room', function (req, res) {
+  res.sendFile(req.params[0] ? req.params[0] : 'index.html', {root: './public'});
+});
 app.use(keycloak.middleware());
 
 app.get("/api/config", keycloak.protect(), (req, res) => {
   const profile = req.kauth.grant.access_token.content;
-  return res.send(JSON.stringify({token: sign(profile.given_name, profile.family_name, profile.email, "*"), jitsiUrl: JITSI_URL, defaultRoom: DEFAULT_ROOM, inviteRoomPrefix: INVITE_ROOM_PREFIX}));
+  return res.send(JSON.stringify({
+    token: sign(profile.given_name, profile.family_name, profile.email, "*"),
+    jitsiUrl: JITSI_URL,
+    defaultRoom: DEFAULT_ROOM
+  }));
 });
 
 app.get("/api/invite", keycloak.protect(), (req, res) => {
