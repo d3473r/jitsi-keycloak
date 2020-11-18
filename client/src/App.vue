@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     openJitsi: function () {
-      window.open(this.buildLink(this.room, this.config.token), "_self");
+      window.location.href = this.buildLink(this.room, this.config.token);
     },
     buildLink: function (room, token) {
       return encodeURI(`${this.config.jitsiUrl}${room}?jwt=${token}`)
