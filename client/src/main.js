@@ -16,10 +16,10 @@ axios.get("api/keycloak.json").then(response => {
   });
 
 
-  const router = new VueRouter({
-    mode: 'history',
-    routes: [{path: '/:room', component: App}]
-  })
+    const router = new VueRouter({
+      mode: "history",
+      routes: [{path: "/:room", component: App}]
+    });
 
   keycloak.init({onLoad: "login-required", promiseType: "native", checkLoginIframe: false}).then(auth => {
     if (!auth) {

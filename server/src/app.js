@@ -2,7 +2,7 @@
 
 const path = require("path");
 const crypto = require("crypto");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const express = require("express");
 const session = require("express-session");
 const Keycloak = require("keycloak-connect");
@@ -14,7 +14,7 @@ const DEFAULT_ROOM = process.env.DEFAULT_ROOM || "DEFAULT_ROOM";
 const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
 const JITSI_SUB = process.env.JITSI_SUB || "JITSI_SUB";
 
-process.on('SIGINT', () => {
+process.on("SIGINT", () => {
   process.exit();
 });
 
@@ -45,9 +45,9 @@ const sign = (firstName, lastName, email, allowedRoom) => {
   }, JITSI_SECRET);
 };
 
-app.use('/', express.static('public'));
-app.get('/:room', function (req, res) {
-  res.sendFile(req.params[0] ? req.params[0] : 'index.html', {root: './public'});
+app.use("/", express.static("public"));
+app.get("/:room", function (req, res) {
+  res.sendFile(req.params[0] ? req.params[0] : "index.html", {root: "./public"});
 });
 app.use(keycloak.middleware());
 
