@@ -70,7 +70,9 @@ export default {
       window.location.href = this.buildLink(this.room, this.config.token);
     },
     buildLink: function (room, token) {
-      return encodeURI(`${this.config.jitsiUrl}${room}?jwt=${token}`)
+      const url = new URL(room, this.config.jitsiUrl);
+      url.searchParams.append("jwt", token);
+      return encodeURI(url.href);
     },
     generateUuid: () => {
       return uuidv4();
