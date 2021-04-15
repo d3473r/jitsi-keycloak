@@ -1,5 +1,9 @@
 # jitsi-keycloak
 
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/d3473r/jitsi-keycloak)
+![Docker Pulls](https://img.shields.io/docker/pulls/d3473r/jitsi-keycloak)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/d3473r/jitsi-keycloak/latest)
+
 ## Installation
 
 - `npm install`
