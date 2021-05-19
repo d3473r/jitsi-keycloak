@@ -41,7 +41,7 @@
                       <v-text-field label="Room" v-model="room" :rules="roomRules"></v-text-field>
                     </v-col>
                   </v-row>
-                  <v-btn color="primary" v-on:click="openJitsi" :disabled="!roomValid">Open Jitsi</v-btn>
+                  <v-btn color="primary" v-on:click="openJitsi" v-on:keyup.enter="openJitsi" :disabled="!roomValid">Open Jitsi</v-btn>
                 </v-form>
               </v-card-text>
             </v-card>
