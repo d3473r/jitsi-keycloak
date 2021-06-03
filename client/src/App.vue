@@ -7,6 +7,7 @@
     >
       <v-toolbar-title>Jitsi Keycloak</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-img v-if="avatar" :src=avatar max-height="40" max-width="40" class="mx-2"></v-img>
       <span>{{ profile.firstName }} {{ profile.lastName }}</span>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -84,6 +85,7 @@ export default {
   data() {
     return {
       config: null,
+      avatar: null,
       room: null,
       roomValid: true,
       roomRules: [
@@ -97,7 +99,14 @@ export default {
   },
   async mounted() {
     axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("vue-token")}`;
-    this.config = (await axios.get("/api/config")).data;
+    
+    let params = {}
+    if (this.profile.attributes && this.profile.attributes.avatar) {
+      this.avatar = this.profile.attributes.avatar[0];
+      params = { avatar: this.avatar };
+    }
+
+    this.config = (await axios.get("/api/config", {params: params})).data;
 
     const roomQuery = this.$route.params.room;
     if (roomQuery) {
