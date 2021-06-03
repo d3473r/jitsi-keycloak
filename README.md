@@ -14,8 +14,12 @@
 
 - Add a public openid-connect client in your keycloak realm
 - Download the `keycloak.json` file for your client and put it in the config directory.
-- Allow this app from keycloak (`jitsi-keycloak` running on https://auth.meet.example.com)
-<img width="301" alt="keycloak" src="https://user-images.githubusercontent.com/10356892/120615016-20b79380-c458-11eb-86cf-a70864319aae.png">
+- Allow this app from keycloak (`jitsi-keycloak` running on https://auth.meet.example.com):
+  <img width="301" alt="keycloak" src="https://user-images.githubusercontent.com/10356892/120615016-20b79380-c458-11eb-86cf-a70864319aae.png">
+
+- If you want to have an avatar displayed in jitsi you can add an avatar custom attribute in keycloak to your desired users:
+  <img width="828" alt="avatar" src="https://user-images.githubusercontent.com/10356892/120669103-6e9bbe00-c48f-11eb-888e-c4da3011f8ea.png">
+
 
 
 
