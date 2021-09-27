@@ -13,6 +13,7 @@ const JITSI_SECRET = process.env.JITSI_SECRET || "JITSI_SECRET";
 const DEFAULT_ROOM = process.env.DEFAULT_ROOM || "DEFAULT_ROOM";
 const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
 const JITSI_SUB = process.env.JITSI_SUB || "JITSI_SUB";
+const JWT_APP_ID = process.env.JWT_APP_ID || "JWT_APP_ID";
 
 process.on('SIGINT', () => {
   process.exit();
@@ -39,8 +40,8 @@ const sign = (firstName, lastName, email, avatar, allowedRoom) => {
         "avatar": avatar
       }
     },
-    "aud": "jitsi",
-    "iss": "jitsi",
+    "aud": JWT_APP_ID,
+    "iss": JWT_APP_ID,
     "sub": JITSI_SUB,
     "room": allowedRoom
   }, JITSI_SECRET);
