@@ -3,7 +3,7 @@ version: '3'
 services:
   jitsi-keycloak:
     image: d3473r/jitsi-keycloak
-    container_name: jisi-keycloak
+    container_name: jitsi-keycloak
     restart: unless-stopped
     environment:
       JITSI_SECRET: 123456789
