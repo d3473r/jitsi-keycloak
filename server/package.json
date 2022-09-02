@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/app.js",
+    "dev": "nodemon --exec ./node_modules/.bin/babel-node src/app.js",
     "start": "NODE_ENV=production node src/app.js"
   },
   "dependencies": {

@@ -12,7 +12,7 @@ WORKDIR /build
 COPY server .
 RUN npm i --prod
 
-FROM alpine:3.12 as run
+FROM alpine:3.12
 RUN apk add --no-cache nodejs
 WORKDIR /app
 ENV NODE_ENV=production
