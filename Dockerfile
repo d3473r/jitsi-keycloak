@@ -10,7 +10,7 @@ FROM alpine:3.16 as build-server
 RUN apk add --no-cache npm
 WORKDIR /build
 COPY server .
-RUN npm i --prod
+RUN npm i --omit=dev
 
 FROM alpine:3.16
 RUN apk add --no-cache nodejs
