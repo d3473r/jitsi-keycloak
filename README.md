@@ -1,6 +1,7 @@
 # jitsi-keycloak
 
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/d3473r/jitsi-keycloak)
+![Build Status](https://img.shields.io/github/workflow/status/d3473r/jitsi-keycloak/Docker%20Image%20CI)
+![Latest Version](https://img.shields.io/github/v/tag/d3473r/jitsi-keycloak?label=Latest%20Version)
 ![Docker Pulls](https://img.shields.io/docker/pulls/d3473r/jitsi-keycloak)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/d3473r/jitsi-keycloak/latest)
 
