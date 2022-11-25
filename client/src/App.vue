@@ -18,7 +18,7 @@
         <span>Logout</span>
       </v-tooltip>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-container>
         <v-row>
           <v-col>
@@ -49,12 +49,11 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 export default {
@@ -98,15 +97,15 @@ export default {
     }
   },
   async mounted() {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("vue-token")}`;
-    
-    let params = {}
-    if (this.profile.attributes && this.profile.attributes.avatar) {
+    if (this.profile.attributes?.avatar) {
       this.avatar = this.profile.attributes.avatar[0];
-      params = { avatar: this.avatar };
     }
 
-    this.config = (await axios.get("/api/config", {params: params})).data;
+    const response = await fetch(`/api/config${this.avatar ? "?avatar=" + encodeURIComponent(this.avatar): ""}`, {
+      headers: {Authorization: `Bearer ${localStorage.getItem("vue-token")}`}
+    })
+
+    this.config = await response.json()
 
     const roomQuery = this.$route.params.room;
     if (roomQuery) {

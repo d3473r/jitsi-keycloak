@@ -18,14 +18,14 @@
     "type": "git",
     "url": "git+https://github.com/D3473R/jitsi-keycloak.git"
   },
-  "author": "D3473R <d3473r@gmail.com>",
+  "author": "Fabian <d3473r@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/D3473R/jitsi-keycloak/issues"
   },
   "homepage": "https://github.com/D3473R/jitsi-keycloak#readme",
   "devDependencies": {
-    "cpy-cli": "^3.1.1",
+    "cpy-cli": "^4.2.0",
     "npm-run-all": "^4.1.5"
   }
 }

@@ -3,6 +3,7 @@ node_modules
 /public
 
 # local env files
+.env
 .env.local
 .env.*.local
 

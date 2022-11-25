@@ -2,64 +2,45 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
-import axios from "axios";
-import * as Keycloak from "keycloak-js";
+import Keycloak from "keycloak-js";
 
 Vue.use(VueRouter)
 Vue.config.productionTip = false;
 
-axios.get("api/keycloak.json").then(response => {
-  const keycloak = Keycloak({
-    url: response.data["auth-server-url"],
-    realm: response.data["realm"],
-    clientId: response.data["resource"]
+const router = new VueRouter({
+  mode: 'history',
+  routes: [{path: '/:room', component: App}]
+})
+
+const keycloak = new Keycloak("api/keycloak.json");
+
+keycloak.init({onLoad: "login-required", checkLoginIframe: false}).then(() => {
+  localStorage.setItem("vue-token", keycloak.token);
+  localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
+
+  keycloak.loadUserProfile()
+      .then(profile => {
+        new Vue({
+          vuetify,
+          router,
+          render: h => h(App, {props: {keycloak: keycloak, profile: profile}})
+        }).$mount("#app");
+
+        setTimeout(() => {
+          keycloak.updateToken(70).then(refreshed => {
+            if (refreshed) {
+              console.debug("Token refreshed" + refreshed);
+            } else {
+              console.warn("Token not refreshed, valid for "
+                  + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + " seconds");
+            }
+          }).catch(() => {
+            console.error("Failed to refresh token");
+          });
+        }, 60000)
+      }).catch(function () {
+    console.error("Failed to load user profile");
   });
-
-
-  const router = new VueRouter({
-    mode: 'history',
-    routes: [{path: '/:room', component: App}]
-  })
-
-  keycloak.init({onLoad: "login-required", promiseType: "native", checkLoginIframe: false}).then(auth => {
-    if (!auth) {
-      window.location.reload();
-    } else {
-      console.info("Authenticated");
-    }
-
-    localStorage.setItem("vue-token", keycloak.token);
-    localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
-
-    keycloak.loadUserProfile()
-        .then(profile => {
-          new Vue({
-            vuetify,
-            router,
-            render: h => h(App, {props: {keycloak: keycloak, profile: profile}})
-          }).$mount("#app");
-
-          setTimeout(() => {
-            keycloak.updateToken(70).then(refreshed => {
-              if (refreshed) {
-                console.debug("Token refreshed" + refreshed);
-              } else {
-                console.warn("Token not refreshed, valid for "
-                    + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + " seconds");
-              }
-            }).catch(() => {
-              console.error("Failed to refresh token");
-            });
-          }, 60000)
-        }).catch(function () {
-      console.error("Failed to load user profile");
-    });
-  }).catch(() => {
-    console.error("Authenticated Failed");
-  });
+}).catch(function() {
+  alert("Did you configure CORS correctly?")
 });
-
-
-
-
-
