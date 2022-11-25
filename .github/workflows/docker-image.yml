@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
@@ -32,7 +33,7 @@ jobs:
       - name: Build and Push Versioned Docker Image
         id: build-and-push
         uses: docker/build-push-action@v2
-        if: ${{ github.ref != 'refs/heads/main' }}
+        if: ${{ contains(github.ref, 'refs/tags/') }}
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -44,4 +45,12 @@ jobs:
         with:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and Push Develop Docker Image
+        id: build-and-push-develop
+        uses: docker/build-push-action@v2
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        with:
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:develop
           labels: ${{ steps.meta.outputs.labels }}
