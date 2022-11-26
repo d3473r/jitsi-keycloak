@@ -6,8 +6,7 @@ const jwt = require('jsonwebtoken');
 const express = require("express");
 const session = require("express-session");
 const Keycloak = require("keycloak-connect");
-import * as dotenv from 'dotenv'
-dotenv.config()
+require('dotenv').config()
 
 const PORT = 3000;
 
