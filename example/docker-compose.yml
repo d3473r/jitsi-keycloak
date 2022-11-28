@@ -9,7 +9,6 @@ services:
       JITSI_SECRET: 123456789
       DEFAULT_ROOM: meeting
       JITSI_URL: https://meet.example.com/
-      JITSI_SUB: meet.example.com
     volumes:
     - ./config:/config
     ports:

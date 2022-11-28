@@ -35,7 +35,6 @@
 - `JITSI_SECRET` with the shared secret from jitsi `JWT_APP_SECRET`.
 - `DEFAULT_ROOM` with a default room name e.g. `meeting`
 - `JITSI_URL` with the url of your jitsi server e.g. `https://meet.example.com`
-- `JITSI_SUB` with `meet.jitsi` (DEPRECATED: will be set to the fixed value `meet.jitsi` in an future update)
 
 ## Run
 

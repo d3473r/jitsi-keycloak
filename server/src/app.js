@@ -13,7 +13,6 @@ const PORT = 3000;
 const JITSI_SECRET = process.env.JITSI_SECRET || "JITSI_SECRET";
 const DEFAULT_ROOM = process.env.DEFAULT_ROOM || "DEFAULT_ROOM";
 const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
-const JITSI_SUB = process.env.JITSI_SUB || "JITSI_SUB";
 
 process.on('SIGINT', () => {
   process.exit();
@@ -42,7 +41,7 @@ const sign = (firstName, lastName, email, avatar, allowedRoom) => {
     },
     "aud": "jitsi",
     "iss": "jitsi",
-    "sub": JITSI_SUB,
+    "sub": "*",
     "room": allowedRoom
   }, JITSI_SECRET);
 };
