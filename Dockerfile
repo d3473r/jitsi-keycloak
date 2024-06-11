@@ -1,4 +1,4 @@
-FROM alpine:3.16 as build-client
+FROM alpine:3.20 as build-client
 RUN apk add --no-cache npm python3 make gcc g++
 WORKDIR /build
 COPY client/package*.json ./
@@ -6,13 +6,13 @@ RUN npm ci
 COPY client .
 RUN npm run build
 
-FROM alpine:3.16 as build-server
+FROM alpine:3.20 as build-server
 RUN apk add --no-cache npm
 WORKDIR /build
 COPY server .
 RUN npm i --omit=dev
 
-FROM alpine:3.16
+FROM alpine:3.20
 RUN apk add --no-cache nodejs
 WORKDIR /app
 ENV NODE_ENV=production
