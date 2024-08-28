@@ -37,6 +37,9 @@ const sign = (firstName, lastName, email, avatar, allowedRoom) => {
         "name": firstName + " " + lastName,
         "email": email,
         "avatar": avatar
+      },
+      "features": {
+        "token_bypass": true
       }
     },
     "aud": "jitsi",
