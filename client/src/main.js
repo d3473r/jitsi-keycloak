@@ -15,8 +15,8 @@ const router = new VueRouter({
 const keycloak = new Keycloak("api/keycloak.json");
 
 keycloak.init({onLoad: "login-required", checkLoginIframe: false}).then(() => {
-  localStorage.setItem("vue-token", keycloak.token);
-  localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
+  sessionStorage.setItem("vue-token", keycloak.token);
+  sessionStorage.setItem("vue-refresh-token", keycloak.refreshToken);
 
   keycloak.loadUserProfile()
       .then(profile => {

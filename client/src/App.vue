@@ -102,7 +102,7 @@ export default {
     }
 
     const response = await fetch(`/api/config${this.avatar ? "?avatar=" + encodeURIComponent(this.avatar): ""}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem("vue-token")}`}
+      headers: {Authorization: `Bearer ${sessionStorage.getItem("vue-token")}`}
     })
 
     this.config = await response.json()
