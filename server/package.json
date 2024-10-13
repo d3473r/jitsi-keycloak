@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.20.0",
+    "express": "^4.21.1",
     "express-session": "^1.17.0",
     "jsonwebtoken": "^9.0.0",
     "keycloak-connect": "^21.0.1",
