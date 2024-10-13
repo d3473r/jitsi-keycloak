@@ -36,6 +36,10 @@
 - `DEFAULT_ROOM` with a default room name e.g. `meeting`
 - `JITSI_URL` with the url of your jitsi server e.g. `https://meet.example.com`
 
+### (OPTIONAL) Replace the following placeholders in `app.js` or pass them as environment variables:
+- `ALLOWED_SUB` with the allowed sub, the default is `*`
+- `ALLOWED_ROOM` with the allowed room, the default is `*`
+
 ## Run
 
 - `npm run dev`

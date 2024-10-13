@@ -13,6 +13,8 @@ const PORT = 3000;
 const JITSI_SECRET = process.env.JITSI_SECRET || "JITSI_SECRET";
 const DEFAULT_ROOM = process.env.DEFAULT_ROOM || "DEFAULT_ROOM";
 const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
+const ALLOWED_SUB = process.env.ALLOWED_SUB || "*";
+const ALLOWED_ROOM = process.env.ALLOWED_ROOM || "*";
 
 process.on('SIGINT', () => {
   process.exit();
@@ -30,7 +32,7 @@ app.use(session({
   store: memoryStore
 }));
 
-const sign = (firstName, lastName, email, avatar, allowedRoom) => {
+const sign = (firstName, lastName, email, avatar) => {
   return jwt.sign({
     "context": {
       "user": {
@@ -44,8 +46,8 @@ const sign = (firstName, lastName, email, avatar, allowedRoom) => {
     },
     "aud": "jitsi",
     "iss": "jitsi",
-    "sub": "*",
-    "room": allowedRoom
+    "sub": ALLOWED_SUB,
+    "room": ALLOWED_ROOM
   }, JITSI_SECRET);
 };
 
@@ -64,7 +66,7 @@ app.get("/api/config", keycloak.protect(), (req, res) => {
 
   const profile = req.kauth.grant.access_token.content;
   return res.send(JSON.stringify({
-    token: sign(profile.given_name, profile.family_name, profile.email, avatar, "*"),
+    token: sign(profile.given_name, profile.family_name, profile.email, avatar),
     jitsiUrl: JITSI_URL,
     defaultRoom: DEFAULT_ROOM
   }));
