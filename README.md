@@ -16,19 +16,19 @@
 - Add a public openid-connect client in your keycloak realm
 - Download the `keycloak.json` file for your client and put it in the config directory.
 - Allow this app from keycloak (`jitsi-keycloak` running on https://auth.meet.example.com):
+  
   <img width="301" alt="keycloak" src="https://user-images.githubusercontent.com/10356892/120615016-20b79380-c458-11eb-86cf-a70864319aae.png">
 
 - If you want to have an avatar displayed in jitsi you can add an avatar custom attribute in keycloak to your desired users:
+  
   <img width="828" alt="avatar" src="https://user-images.githubusercontent.com/10356892/120669103-6e9bbe00-c48f-11eb-888e-c4da3011f8ea.png">
-
-
-
 
 ### Jitsi
 
 - Set `ENABLE_AUTH=1`, `AUTH_TYPE=jwt` and `JWT_APP_ID=jitsi` in your jitsi environment
 - Set `JWT_APP_SECRET` to a random string (e.g. `node -e "console.log(require('crypto').randomBytes(24).toString('base64'));"`)
-- To enable an automatic redirect from jitsi to login set the url of this container`TOKEN_AUTH_URL=https://auth.example.com/{room}`
+- To enable an automatic redirect from jitsi to login set the url of this container `TOKEN_AUTH_URL=https://auth.example.com/{room}`
+- To enable the guest lobby feature for every new room add `XMPP_MODULES=muc_lobby_rooms,persistent_lobby` and `XMPP_MUC_MODULES=lobby_autostart,token_lobby_bypass`. This will enable these two plugins: https://github.com/jitsi-contrib/prosody-plugins/tree/main/lobby_autostart and https://github.com/jitsi-contrib/prosody-plugins/tree/main/token_lobby_bypass. The `lobby_bypass` attribute is automatically enabled for every logged in user.
 
 ### Replace the following placeholders in `app.js` or pass them as environment variables:
 
