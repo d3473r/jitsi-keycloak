@@ -38,11 +38,9 @@ const sign = (firstName, lastName, email, avatar) => {
       "user": {
         "name": firstName + " " + lastName,
         "email": email,
-        "avatar": avatar
+        "avatar": avatar,
+        "lobby_bypass": true
       },
-      "features": {
-        "token_bypass": true
-      }
     },
     "aud": "jitsi",
     "iss": "jitsi",
