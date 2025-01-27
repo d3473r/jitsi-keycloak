@@ -8,6 +8,14 @@ const session = require("express-session");
 const Keycloak = require("keycloak-connect");
 require('dotenv').config()
 
+const toNumber = (string, defaultValue)=> {
+  const int = Number(string)
+  if (isNaN(int)) {
+    return defaultValue;
+  }
+  return int
+}
+
 const PORT = 3000;
 
 const JITSI_SECRET = process.env.JITSI_SECRET || "JITSI_SECRET";
@@ -15,6 +23,7 @@ const DEFAULT_ROOM = process.env.DEFAULT_ROOM || "DEFAULT_ROOM";
 const JITSI_URL = process.env.JITSI_URL || "JITSI_URL";
 const ALLOWED_SUB = process.env.ALLOWED_SUB || "*";
 const ALLOWED_ROOM = process.env.ALLOWED_ROOM || "*";
+const TOKEN_EXP = toNumber(process.env.TOKEN_EXP, 86400);
 
 process.on('SIGINT', () => {
   process.exit();
@@ -33,6 +42,7 @@ app.use(session({
 }));
 
 const sign = (firstName, lastName, email, avatar) => {
+  const nowInSeconds = Math.floor(Date.now() / 1000)
   return jwt.sign({
     "context": {
       "user": {
@@ -44,6 +54,8 @@ const sign = (firstName, lastName, email, avatar) => {
     },
     "aud": "jitsi",
     "iss": "jitsi",
+    "nbf": nowInSeconds,
+    "exp": nowInSeconds + TOKEN_EXP,
     "sub": ALLOWED_SUB,
     "room": ALLOWED_ROOM
   }, JITSI_SECRET);
