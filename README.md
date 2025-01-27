@@ -39,7 +39,6 @@
 ### (OPTIONAL) Replace the following placeholders in `app.js` or pass them as environment variables:
 - `ALLOWED_SUB` with the allowed sub, the default is `*`
 - `ALLOWED_ROOM` with the allowed room, the default is `*`
-- `TOKEN_EXP` with the token expiry in seconds, the default is `86400`, so 24 hours
 
 ## Run
 
