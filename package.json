@@ -11,7 +11,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "packageManager": "pnpm@9.7.0",
+  "packageManager": "pnpm@11.22.0",
   "dependencies": {
     "keycloak-js": "^25.0.1",
     "jsonwebtoken": "^9.0.0",
