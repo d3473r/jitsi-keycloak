@@ -1,31 +1,27 @@
 {
   "name": "jitsi-keycloak",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Jitsi login with keycloak",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "npm-run-all --parallel dev:client dev:server",
-    "dev:client": "npm --prefix client run serve",
-    "dev:server": "npm --prefix server run dev",
-    "build": "npm-run-all build:client copy",
-    "build:client": "npm --prefix client run build",
-    "copy": "cpy --parents --cwd=client/dist ./ ../../server/public",
-    "install": "npm-run-all install:client install:server",
-    "install:client": "npm --prefix client install",
-    "install:server": "npm --prefix server install"
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/D3473R/jitsi-keycloak.git"
+  "packageManager": "pnpm@9.7.0",
+  "dependencies": {
+    "keycloak-js": "^25.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "jwks-rsa": "^3.1.0",
+    "nuxt": "^3.13.0"
   },
-  "author": "Fabian <d3473r@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/D3473R/jitsi-keycloak/issues"
-  },
-  "homepage": "https://github.com/D3473R/jitsi-keycloak#readme",
   "devDependencies": {
-    "cpy-cli": "^4.2.0",
-    "npm-run-all": "^4.1.5"
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.5.0"
   }
 }

@@ -1,0 +1,8 @@
+{
+  "realm": "hiqs",
+  "auth-server-url": "https://iam.hiqs.de/auth/",
+  "ssl-required": "external",
+  "resource": "jitsi-login",
+  "public-client": true,
+  "confidential-port": 0
+}

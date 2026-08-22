@@ -1,22 +1,18 @@
-FROM alpine:3.20 as build-client
-RUN apk add --no-cache npm python3 make gcc g++
-WORKDIR /build
-COPY client/package*.json ./
-RUN npm ci
-COPY client .
-RUN npm run build
+FROM node:20-alpine AS builder
+RUN apk add --no-cache python3 make g++
+RUN npm install -g pnpm@9.7.0
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm run build
 
-FROM alpine:3.20 as build-server
-RUN apk add --no-cache npm
-WORKDIR /build
-COPY server .
-RUN npm i --omit=dev
-
-FROM alpine:3.20
-RUN apk add --no-cache nodejs
+FROM node:20-alpine
 WORKDIR /app
 ENV NODE_ENV=production
+ENV HOST=0.0.0.0
+ENV PORT=3000
+COPY --from=builder /app/.output ./.output
+COPY --from=builder /app/config ./config
 EXPOSE 3000
-CMD [ "node", "src/app.js" ]
-COPY --from=build-server /build .
-COPY --from=build-client /build/dist ./public
+CMD ["node", ".output/server/index.mjs"]

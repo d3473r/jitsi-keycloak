@@ -5,53 +5,94 @@
 ![Docker Pulls](https://img.shields.io/docker/pulls/d3473r/jitsi-keycloak)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/d3473r/jitsi-keycloak/latest)
 
+A [Jitsi Meet](https://jitsi.org) authentication bridge that integrates [Keycloak](https://www.keycloak.org) (OIDC) with Jitsi Meet. Users log in via Keycloak, and the app generates a signed JWT that Jitsi uses to authenticate the user into a meeting room.
+
+Built with **Nuxt 3**, **TailwindCSS**, and **Nitro**.
+
 ## Installation
 
-- `npm install`
+```bash
+npm install
+```
 
 ## Configuration
 
 ### Keycloak
 
-- Add a public openid-connect client in your keycloak realm
-- Download the `keycloak.json` file for your client and put it in the config directory.
-- Allow this app from keycloak (`jitsi-keycloak` running on https://auth.meet.example.com):
-  
-  <img width="301" alt="keycloak" src="https://user-images.githubusercontent.com/10356892/120615016-20b79380-c458-11eb-86cf-a70864319aae.png">
+- Add a public openid-connect client in your Keycloak realm
+- Download the `keycloak.json` file for your client and put it in the `config` directory
+- Allow this app from Keycloak (`jitsi-keycloak` running on https://auth.meet.example.com)
 
-- If you want to have an avatar displayed in jitsi you can add an avatar custom attribute in keycloak to your desired users:
-  
-  <img width="828" alt="avatar" src="https://user-images.githubusercontent.com/10356892/120669103-6e9bbe00-c48f-11eb-888e-c4da3011f8ea.png">
+- If you want to have an avatar displayed in Jitsi, add an avatar custom attribute in Keycloak to your desired users
 
 ### Jitsi
 
-- Set `ENABLE_AUTH=1`, `AUTH_TYPE=jwt` and `JWT_APP_ID=jitsi` in your jitsi environment
+- Set `ENABLE_AUTH=1`, `AUTH_TYPE=jwt` and `JWT_APP_ID=jitsi` in your Jitsi environment
 - Set `JWT_APP_SECRET` to a random string (e.g. `node -e "console.log(require('crypto').randomBytes(24).toString('base64'));"`)
-- To enable an automatic redirect from jitsi to login set the url of this container `TOKEN_AUTH_URL=https://auth.example.com/{room}`
-- To enable the guest lobby feature for every new room add `XMPP_MODULES=muc_lobby_rooms,persistent_lobby` and `XMPP_MUC_MODULES=lobby_autostart,token_lobby_bypass`. This will enable these two plugins: https://github.com/jitsi-contrib/prosody-plugins/tree/main/lobby_autostart and https://github.com/jitsi-contrib/prosody-plugins/tree/main/token_lobby_bypass. The `lobby_bypass` attribute is automatically enabled for every logged in user.
+- To enable an automatic redirect from Jitsi to login, set the URL of this container: `TOKEN_AUTH_URL=https://auth.example.com/{room}`
+- To enable the guest lobby feature for every new room, add `XMPP_MODULES=muc_lobby_rooms,persistent_lobby` and `XMPP_MUC_MODULES=lobby_autostart,token_lobby_bypass`. The `lobby_bypass` attribute is automatically enabled for every logged-in user.
 
-### Replace the following placeholders in `app.js` or pass them as environment variables:
+### Environment Variables
 
-- `JITSI_SECRET` with the shared secret from jitsi `JWT_APP_SECRET`.
-- `DEFAULT_ROOM` with a default room name e.g. `meeting`
-- `JITSI_URL` with the url of your jitsi server e.g. `https://meet.example.com`
+Create a `.env` file (see `.env.example`) or pass the following as environment variables:
 
-### (OPTIONAL) Replace the following placeholders in `app.js` or pass them as environment variables:
-- `ALLOWED_SUB` with the allowed sub, the default is `*`
-- `ALLOWED_ROOM` with the allowed room, the default is `*`
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JITSI_SECRET` | Shared secret from Jitsi (`JWT_APP_SECRET`) | - |
+| `DEFAULT_ROOM` | Default room name | - |
+| `JITSI_URL` | URL of your Jitsi server | - |
+| `ALLOWED_SUB` | Allowed sub in JWT | `*` |
+| `ALLOWED_ROOM` | Allowed room in JWT | `*` |
+| `KEYCLOAK_CONFIG_PATH` | Path to `keycloak.json` | `./config/keycloak.json` |
 
 ## Run
 
-- `npm run dev`
+### Development
 
-## Build with docker
+```bash
+npm run dev
+```
 
-- `docker build -t jitsi-keycloak .`
+### Production
 
-## Run with docker
+```bash
+npm run build
+node .output/server/index.mjs
+```
 
-- `docker run -it --rm -p 3000:3000 -v $(pwd)/config:/config jitsi-keycloak`
+## Build with Docker
 
-## Run with docker-compose in example directory
+```bash
+docker build -t jitsi-keycloak .
+```
 
-- `docker-compose up -d`
+## Run with Docker
+
+```bash
+docker run -it --rm -p 3000:3000 -v $(pwd)/config:/app/config jitsi-keycloak
+```
+
+## Run with Docker Compose
+
+```bash
+cd example
+docker-compose up -d
+```
+
+## Architecture
+
+| Layer | Technology |
+|-------|-----------|
+| **Full-stack** | Nuxt 3 (Nitro server engine) |
+| **UI** | TailwindCSS |
+| **Client auth** | keycloak-js (OIDC) |
+| **Server auth** | JWT verification via Keycloak JWKS |
+| **JWT signing** | jsonwebtoken |
+
+### API Endpoints
+
+| Endpoint | Auth | Purpose |
+|----------|------|---------|
+| `GET /api/config` | Bearer token | Returns Jitsi JWT + Jitsi URL + default room |
+| `GET /api/invite?name=` | Bearer token | Signs a guest JWT |
+| `GET /api/keycloak.json` | Public | Serves Keycloak config to client |
