@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   jitsi-keycloak:
     image: ghcr.io/d3473r/jitsi-keycloak
@@ -10,6 +8,6 @@ services:
       DEFAULT_ROOM: meeting
       JITSI_URL: https://meet.example.com/
     volumes:
-    - ./config:/config
+      - ./config:/app/config
     ports:
-    - 3000:3000
+      - 3000:3000
