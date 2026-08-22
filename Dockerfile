@@ -11,8 +11,8 @@ FROM node:20-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
-ENV PORT=3000
+ENV PORT=8080
 COPY --from=builder /app/.output ./.output
 COPY --from=builder /app/config ./config
-EXPOSE 3000
+EXPOSE 8080
 CMD ["node", ".output/server/index.mjs"]

@@ -2,8 +2,7 @@ import Keycloak from 'keycloak-js'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   try {
-    const keycloakConfig = await $fetch('/api/keycloak.json')
-    const keycloak = new Keycloak(keycloakConfig as Keycloak.KeycloakConfig)
+    const keycloak = new Keycloak('/api/keycloak.json')
 
     await keycloak.init({ onLoad: 'login-required', checkLoginIframe: false })
 

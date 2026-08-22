@@ -2,6 +2,9 @@ export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  devServer: {
+    port: 8080,
+  },
   modules: ['@nuxtjs/tailwindcss'],
   runtimeConfig: {
     jitsiSecret: process.env.JITSI_SECRET || 'JITSI_SECRET',
