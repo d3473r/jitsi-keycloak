@@ -1,3 +1,4 @@
+# Build artifacts
 node_modules
 .nuxt
 .output
@@ -5,9 +6,32 @@ node_modules
 .nitro
 .cache
 dist
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# VCS & IDE
 .git
 .github
 .idea
+.fleet
 .DS_Store
+
+# Logs
+logs
 *.log
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Docs & examples
+README.md
+LICENSE
+example/
+
+# Misc
 .pnpm-store
+tsconfig.json
