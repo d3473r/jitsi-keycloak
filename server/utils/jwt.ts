@@ -5,8 +5,8 @@ interface JitsiSignOptions {
   lastName: string
   email: string
   avatar?: string
-  nbf: number
-  exp: number
+  nbf?: number
+  exp?: number
 }
 
 export function signJitsiJwt(
@@ -30,5 +30,5 @@ export function signJitsiJwt(
     exp: options.exp,
     sub: allowedSub,
     room: allowedRoom,
-  }, secret)
+  }, String(secret))
 }

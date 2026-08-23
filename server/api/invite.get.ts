@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
   await requireAuth(event)
-  const config = useRuntimeConfig()
+  const config = useEnvConfig()
   const query = getQuery(event)
 
   const name = (query.name as string) || ''

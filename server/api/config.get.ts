@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
   const profile = await requireAuth(event)
-  const config = useRuntimeConfig()
+  const config = useEnvConfig()
   const query = getQuery(event)
 
   const avatar = query.avatar as string | undefined

@@ -18,7 +18,7 @@ let cachedClient: ReturnType<typeof jwksClient> | null = null
 export function getKeycloakConfig(): KeycloakConfig {
   if (cachedConfig) return cachedConfig
 
-  const config = useRuntimeConfig()
+  const config = useEnvConfig()
   const configPath = resolvePath(config.keycloakConfigPath)
   const raw = readFileSync(configPath, 'utf-8')
   cachedConfig = JSON.parse(raw)
