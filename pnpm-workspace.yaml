@@ -1,2 +1,7 @@
 allowBuilds:
   esbuild: true
+
+overrides:
+  # Dependabot GHSA-rj75-hqrm-r3gf: force Tailwind 3's build chain off vulnerable
+  # postcss-selector-parser 6.x (no patched 6.x release exists)
+  postcss-selector-parser: ^7.1.6
