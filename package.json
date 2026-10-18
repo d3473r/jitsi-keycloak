@@ -1,6 +1,6 @@
 {
   "name": "jitsi-keycloak",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Jitsi login with keycloak",
   "private": true,
   "type": "module",
