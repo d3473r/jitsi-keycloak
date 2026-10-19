@@ -9,6 +9,8 @@ A [Jitsi Meet](https://jitsi.org) authentication bridge that integrates [Keycloa
 
 Built with **Nuxt 3**, **TailwindCSS**, and **Nitro**.
 
+The UI supports dark mode: it follows your system preference by default and can be toggled manually with the button in the header. The choice is persisted in the browser.
+
 ## Installation
 
 ```bash
